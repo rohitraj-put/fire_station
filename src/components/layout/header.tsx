@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Bell, Search, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -15,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { useFireStation } from "@/context/FireStationContext";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "../theme/theme-toggle";
+import { Link } from "react-router-dom";
 
 interface HeaderProps {
   showMobileMenu: boolean;
@@ -80,7 +80,7 @@ export function Header({ showMobileMenu, setShowMobileMenu }: HeaderProps) {
             <DropdownMenuItem>
               <div className="flex flex-col">
                 <span className="font-medium">Equipment maintenance due</span>
-                <span className="text-xs text-muted-foreground">
+                <span className="text-xs">
                   Thermal camera needs inspection
                 </span>
               </div>
@@ -88,7 +88,7 @@ export function Header({ showMobileMenu, setShowMobileMenu }: HeaderProps) {
             <DropdownMenuItem>
               <div className="flex flex-col">
                 <span className="font-medium">New incident report</span>
-                <span className="text-xs text-muted-foreground">
+                <span className="text-xs">
                   Incident #1204 has been filed
                 </span>
               </div>
@@ -96,7 +96,7 @@ export function Header({ showMobileMenu, setShowMobileMenu }: HeaderProps) {
             <DropdownMenuItem>
               <div className="flex flex-col">
                 <span className="font-medium">Shift change reminder</span>
-                <span className="text-xs text-muted-foreground">
+                <span className="text-xs">
                   B-Shift starts tomorrow at 08:00
                 </span>
               </div>
@@ -119,6 +119,8 @@ export function Header({ showMobileMenu, setShowMobileMenu }: HeaderProps) {
             <DropdownMenuSeparator />
             <DropdownMenuItem>Profile</DropdownMenuItem>
             <DropdownMenuItem>Settings</DropdownMenuItem>
+            <DropdownMenuItem><Link to={"/signup"}>Sign Up</Link></DropdownMenuItem>
+            <DropdownMenuItem><Link to={"/login"}>Login</Link></DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Log out</DropdownMenuItem>
           </DropdownMenuContent>

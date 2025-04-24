@@ -19,6 +19,8 @@ import Settings from "./pages/Settings";
 import { FireStationProvider } from "./context/FireStationContext";
 import { ThemeProvider } from "./components/theme/theme-provider";
 import IncidentDetails from "./pages/IncidentDetails";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +46,8 @@ const App = () => (
                 <Route path="/training/*" element={<Training />} />
                 <Route path="/reports/*" element={<Reports />} />
                 <Route path="/settings/*" element={<Settings />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>

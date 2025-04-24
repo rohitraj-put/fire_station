@@ -9,13 +9,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { NewIncidentForm } from "@/components/incidents/new-incident-form";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useFireStation } from "@/context/FireStationContext";
 import { Search, Plus, Filter } from "lucide-react";
 import { IncidentList } from "@/components/dashboard/incident-list";
-import MapComponent from "@/components/incidents/MapComponent";
 
 export default function Incidents() {
   const { incidents } = useFireStation();
@@ -27,8 +25,6 @@ export default function Incidents() {
     incident.location.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
     incident.type.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  
 
   return (
     <MainLayout>

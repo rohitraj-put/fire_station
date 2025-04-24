@@ -32,6 +32,7 @@ export const WeatherDisplay = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [locationFetched, setLocationFetched] = useState(false);
+  console.log(weather)
 
   const API_KEY = "1635890035cbba097fd5c26c8ea672a1";
 

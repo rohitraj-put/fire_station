@@ -54,7 +54,7 @@ export function MaintenanceAlertsCard() {
               {overdueMaintenance.map(item => {
                 const itemDetails = getItemDetails(item);
                 return (
-                  <div key={item.id} className="bg-red-50 border-l-4 border-red-500 p-2 rounded">
+                  <div key={item.id} className=" border-l-4 border-red-500 p-2 rounded">
                     <div className="text-sm font-medium">{itemDetails.name}</div>
                     <div className="text-xs text-muted-foreground flex justify-between">
                       <span>{item.description}</span>
