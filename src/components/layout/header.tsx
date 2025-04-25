@@ -14,7 +14,8 @@ import { Input } from "@/components/ui/input";
 import { useFireStation } from "@/context/FireStationContext";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "../theme/theme-toggle";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 interface HeaderProps {
   showMobileMenu: boolean;
@@ -24,10 +25,18 @@ interface HeaderProps {
 export function Header({ showMobileMenu, setShowMobileMenu }: HeaderProps) {
   const [notifications, setNotifications] = useState(3);
   const { incidents } = useFireStation();
+  const navigate=useNavigate()
 
   const activeIncidents = incidents.filter(
     (incident) => incident.status !== "resolved" && incident.status !== "closed"
   ).length;
+
+  const handleLogout = () => {
+    localStorage.removeItem("isAuthenticated");
+    localStorage.setItem("isAuthenticated", "false");
+    toast.success("Logged out successfully");
+    navigate("/login");
+  };
 
   return (
     <header className={cn(
@@ -122,7 +131,7 @@ export function Header({ showMobileMenu, setShowMobileMenu }: HeaderProps) {
             <DropdownMenuItem><Link to={"/signup"}>Sign Up</Link></DropdownMenuItem>
             <DropdownMenuItem><Link to={"/login"}>Login</Link></DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Log out</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>Log out</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

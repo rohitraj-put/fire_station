@@ -25,29 +25,28 @@ const districts = [
   "West Delhi",
 ];
 
+const roles = ["Admin", "User"];
+
 const fields = [
   { name: "fullName", type: "text", placeholder: "Full Name" },
-  { name: "policeStation", type: "text", placeholder: "Police Station" },
+  { name: "fireStation", type: "text", placeholder: "Fire Station" },
   { name: "mobile", type: "text", placeholder: "Mobile" },
   { name: "email", type: "email", placeholder: "Email" },
   { name: "designation", type: "text", placeholder: "Designation" },
   { name: "pisNo", type: "text", placeholder: "PIS No" },
   { name: "password", type: "password", placeholder: "Password" },
-  {
-    name: "confirmPassword",
-    type: "password",
-    placeholder: "Confirm Password",
-  },
+  { name: "confirmPassword", type: "password", placeholder: "Confirm Password" },
 ];
 
 export default function Signup() {
   const [form, setForm] = useState(
     fields.reduce((acc, field) => ({ ...acc, [field.name]: "" }), {
       district: "",
+      role: "",
+      avatar: null, // State for the profile image
     })
   );
-  console.log(form);
-  
+console.log(form);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -57,21 +56,41 @@ export default function Signup() {
     setForm({ ...form, district: value });
   };
 
+  const handleRoleChange = (value: string) => {
+    setForm({ ...form, role: value });
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setForm({ ...form, avatar: file });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // if (form.password !== form.confirmPassword) {
+    //   alert("Passwords do not match!");
+    //   return;
+    // }
+
+    const formData = new FormData();
+    for (const key in form) {
+      if (key === "avatar" && form.avatar) {
+        formData.append("avatar", form.avatar);
+      } else {
+        formData.append(key, form[key]);
+      }
+    }
+
     try {
-      const response = await fetch("http://localhost:5000/api/signup", {
+      const response = await fetch("https://firestationswebaplication-production.up.railway.app/api/v1/users/register", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
+        body: formData,
       });
 
       if (response.ok) {
         alert("User registered successfully");
-        setForm(fields.reduce((acc, field) => ({ ...acc, [field.name]: "" }), { district: "" }));
+        setForm(fields.reduce((acc, field) => ({ ...acc, [field.name]: "" }), { district: "", role: "", avatar: null }));
       } else {
         const errorData = await response.json();
         alert(`Error: ${errorData.message}`);
@@ -116,6 +135,31 @@ export default function Signup() {
                   ))}
                 </SelectContent>
               </Select>
+            </div>
+            <div className="col-span-2 sm:col-span-1">
+              <Label htmlFor="role">Role</Label>
+              <Select onValueChange={handleRoleChange}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Role" />
+                </SelectTrigger>
+                <SelectContent>
+                  {roles.map((role) => (
+                    <SelectItem key={role} value={role}>
+                      {role}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="col-span-2 sm:col-span-1">
+              <Label htmlFor="avatar">Profile Image</Label>
+              <Input
+                id="avatar"
+                name="avatar"
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+              />
             </div>
             <div className="col-span-2">
               <Button type="submit" className="w-full">
